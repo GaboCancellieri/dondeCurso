@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            Mapa
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid *ngIf="mostrarSitioInput || mostrarUnidadAcademica">
+        <ion-row class="bar" *ngIf="mostrarUnidadAcademica" style="padding-top: 1vh;">
+            <ion-col>
+                <ion-item>
+                    <ion-select class="myCustomSelect" [(ngModel)]="selectedUnidadAcademica"
+                                placeholder="-- Unidad Academica --" multiple="false">
+                        <ion-select-option value="Facultad de Informatica">Facultad de Informatica</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-button size="small" color="success" [disabled]="!selectedUnidadAcademica"
+                            (click)="getSitiosUnidadAcademica()">
+                    <ion-icon name="checkmark-circle"></ion-icon>
+                </ion-button>
+                <ion-button size="small" class="ion-float-right" color="danger" (click)="toggleUnidadAcademica()">
+                    <ion-icon name="close-circle"></ion-icon>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row class="bar" *ngIf="mostrarSitioInput" style="padding-top: 1vh;">
+            <ion-col>
+                <ion-input placeholder="Nombre de sitio" [(ngModel)]="nombreSitio"></ion-input>
+                <ion-button size="small" color="success" [disabled]="!nombreSitio" (click)="getSitio()">
+                    <ion-icon name="checkmark-circle"></ion-icon>
+                </ion-button>
+                <ion-button size="small" class="ion-float-right" color="danger" (click)="toggleSitioInput()">
+                    <ion-icon name="close-circle"></ion-icon>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <div id='mapid' style="width:100%; height:100%;">
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!mostrarSitioInput && !mostrarUnidadAcademica">
+            <ion-fab-button (click)="toggleUnidadAcademica();" color="tertiary">
+                <ion-icon name="business"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="toggleSitioInput();" color="tertiary">
+                <ion-icon name="search"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+    </div>
+</ion-content>

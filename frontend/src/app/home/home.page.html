@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Inicio
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="main">
+  <ion-card class="welcome-card" style="padding-top: 5vh;">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="9">
+        <img src="../../assets/img/classroom.png" />
+      </ion-col>
+    </ion-row>
+    <ion-card-header class="ion-text-center">
+      <ion-card-title style=" color: white;">¡Bienvenido!</ion-card-title>
+      <ion-card-subtitle style="color: white;">(UNCo Neuquén)</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size='6'>
+            <ion-button color="dark" size="default" [routerDirection]="'root'" [routerLink]="['/mapa']">
+              Mapa
+              <ion-icon slot="end" name="map"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size='6'>
+            <ion-button color="dark" size="default" class="ion-float-right">
+              Iniciar
+              <ion-icon slot="end" name="log-in"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

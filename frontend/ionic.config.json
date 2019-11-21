@@ -1,0 +1,8 @@
+{
+  "name": "donde-curso",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "32c751b3"
+}
