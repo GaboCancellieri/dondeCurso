@@ -24,9 +24,10 @@ export class IngresoPage {
 
   iniciarSesion(f: NgForm) {
     this.ingresoService.iniciarSesion(this.login.usuario, this.login.pass)
-    .then(inicio => {
+  /*  .then(inicio => {
 
     });
+    */
   }
 
   validateEmail(email) {
