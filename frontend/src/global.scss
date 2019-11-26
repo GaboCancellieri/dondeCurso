@@ -70,9 +70,38 @@ ion-select.myCustomSelect {
   max-width: 100%;
 }
 
+ion-item {
+  --background: #043345 !important;
+}
+
+ion-checkbox[readonly] {
+  pointer-events: none !important;
+}
+
 ion-input {
   color: #ebebeb !important;
   font-size: 20px !important;
+}
+
+ion-item {
+  --highlight-color-focused: #0cd1e8 !important;
+  --highlight-color-valid: #0cd1e8 !important;
+  --highlight-color-invalid: #0cd1e8 !important;
+}
+
+ion-item.myInvalid { 
+  --border-width: 0 0 0.70px 0 !important;
+  --border-color: red !important;
+  --highlight-color-focused: red !important;
+  --highlight-color-valid: red !important;
+  --highlight-color-invalid: red !important;
+}
+ion-item.myValid   { 
+  --border-width: 0 0 0.70px 0 !important;
+  --border-color: green !important;
+  --highlight-color-focused: green !important;
+  --highlight-color-valid: green !important;
+  --highlight-color-invalid: green !important;
 }
 
 .leaflet-control-container .leaflet-routing-container-hide {
