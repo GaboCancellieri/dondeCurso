@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,12 +18,17 @@ const routes: Routes = [
   },
   {
     path: 'ingresar',
-    loadChildren: () => import('./ingresar/ingreso.module').then(m => m.IngresoPageModule)
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
   {
     path: 'info',
     loadChildren: () => import('./info/info.module').then(m => m.InfoPageModule)
-  }
+  },
+  {
+    path: 'cuenta',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./cuenta/cuenta.module').then(m => m.CuentaPageModule)
+  },
 ];
 
 @NgModule({

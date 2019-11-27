@@ -16,12 +16,6 @@ var sitioRoutes = require('./routes/sitio');
 var unidadAcademicaRoutes = require('./routes/unidadAcademica');
 
 var Usuario = require('./models/usuario');
-var Carrera = require('./models/carrera');
-var Edificio = require('./models/edificio');
-var Materia = require('./models/materia');
-var Modulo = require('./models/modulo');
-var Sitio = require('./models/sitio');
-var UnidadAcademica = require('./models/unidadAcademica');
 
 express = require('express');
 bodyParser = require('body-parser');
@@ -87,7 +81,6 @@ app.use(express.static(__dirname + '/dist'));
 app.get('/', function (req, res, next) {
     res.render('index.html');
 });
-
 
 app.post("/login", function (req, res) {
     if (req.body.username && req.body.password) {

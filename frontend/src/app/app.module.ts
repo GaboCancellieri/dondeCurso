@@ -14,6 +14,8 @@ import { SitioService } from './sitios/sitios.service';
 import { WINDOW_PROVIDERS } from './window.provider';
 import { HttpModule } from '@angular/http';
 import { UrlService } from './window.provider.service';
+import { AuthenticationService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +33,8 @@ import { UrlService } from './window.provider.service';
     StatusBar,
     SplashScreen,
     UrlService,
+    AuthenticationService,
+    AuthGuard,
     SitioService,
     WINDOW_PROVIDERS,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
