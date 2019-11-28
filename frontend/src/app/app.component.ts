@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AuthenticationService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,8 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private authService: AuthenticationService
   ) {
     this.initializeApp();
   }
@@ -36,5 +38,21 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  isLogged() {
+    if (this.authService.isLogged()) {
+      if (this.appPages.length === 2) {
+        this.appPages.splice(1, 0, {
+          title: 'Cuenta Personal',
+          url: '/cuenta',
+          icon: 'person'
+        });
+      }
+    } else {
+      if (this.appPages.length === 3) {
+        this.appPages.splice(1, 1);
+      }
+    }
   }
 }

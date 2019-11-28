@@ -1,0 +1,58 @@
+<ion-header translucent>
+    <ion-toolbar>
+        <ion-title>Agregar Clase</ion-title>
+        <ion-chip color="danger" slot="end" (click)="dismissModal()">
+            <ion-icon name="close"></ion-icon>
+        </ion-chip>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="main" fullscreen>
+    <ion-list>
+        <ion-item style="color: #fff !important;">
+            <ion-label>Unidad Academica</ion-label>
+            <ion-select (ionChange)="getCarreras($event.detail.value);">
+                <ion-select-option *ngFor="let unidadAcademica of unidadesAcademicas" [value]="unidadAcademica">
+                    {{unidadAcademica.nombre}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item style="color: #fff !important;" *ngIf="carreras">
+            <ion-label>Carrera</ion-label>
+            <ion-select (ionChange)="setCarrera($event.detail.value);">
+                <ion-select-option *ngFor="let carrera of carreras" [value]="carrera">
+                    {{carrera.nombre}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item style="color: #fff !important;" *ngIf="mostrarAnio">
+            <ion-label>Año de Carrera</ion-label>
+            <ion-select (ionChange)="getMaterias($event.detail.value)">
+                <ion-select-option value="Primer Año">Primer Año</ion-select-option>
+                <ion-select-option value="Segundo Año">Segundo Año</ion-select-option>
+                <ion-select-option value="Tercer Año">Tercer Año</ion-select-option>
+                <ion-select-option value="Cuarto Año">Cuarto Año</ion-select-option>
+                <ion-select-option value="Quinto Año">Quinto Año</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item style="color: #fff !important;" *ngIf="materias">
+            <ion-label>Materia</ion-label>
+            <ion-select (ionChange)="getModulos($event.detail.value);">
+                <ion-select-option *ngFor="let materia of materias" [value]="materia">
+                    {{materia.nombre}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item style="color: #fff !important;" *ngIf="modulos">
+            <ion-label>Modulo</ion-label>
+            <ion-select (ionChange)="setModulo($event.detail.value);">
+                <ion-select-option *ngFor="let modulo of modulos" [value]="modulo">
+                    {{modulo.nombre}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+    <ion-button color="success" class="ion-float-right" [disabled]="!selectedModulo" (click)="guardarModulo()">
+        Agregar
+        <ion-icon name="checkmark"></ion-icon>
+    </ion-button>
+</ion-content>
