@@ -1,29 +1,41 @@
 var Modulo = require('../models/modulo');
-var Usuario = require('../models/usuario');
+var Usuario = require('../users/user.model');
 
 function getModulos(req, res) {
-    Modulo.find({'materia': req.params.idMateria})
-        .populate({path: 'materia', model: "Materia"})
-        .populate('clases.sitio')
-        .exec((error, modulos) => {
-            if (error) {
+    Usuario.findById(req.query.usuario)
+        .exec((error, usuario) => {
+            if (!usuario) {
                 return res.status(404).json({
                     title: 'Error',
-                    error: error
+                    error: 'No existe usuario'
                 });
             }
+            Modulo.find({
+                '_id': { $nin: usuario.modulos },
+                'materia': req.query.materia
+            })
+                .populate({ path: 'materia', model: "Materia" })
+                .populate('clases.sitio')
+                .exec((error, modulos) => {
+                    if (error) {
+                        return res.status(404).json({
+                            title: 'Error',
+                            error: error
+                        });
+                    }
 
-            if (!modulos) {
-                return res.status(404).json({
-                    title: 'Error',
-                    error: 'No hay modulos'
+                    if (!modulos) {
+                        return res.status(404).json({
+                            title: 'Error',
+                            error: 'No hay modulos'
+                        });
+                    }
+
+                    res.status(200).json({
+                        message: 'Success',
+                        obj: modulos
+                    });
                 });
-            }
-
-            res.status(200).json({
-                message: 'Success',
-                obj: modulos
-            });
         });
 }
 

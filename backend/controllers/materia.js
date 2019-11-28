@@ -1,28 +1,25 @@
 var Materia = require('../models/materia');
+var Carrera = require('../models/carrera');
 var Modulo = require('../models/modulo');
 
 function getMaterias(req, res) {
-    Materia.find({})
-        .exec((error, materias) => {
-            if (error) {
-                return res.status(404).json({
-                    title: 'Error',
-                    error: error
-                });
-            }
-
-            if (!materias) {
-                return res.status(404).json({
-                    title: 'Error',
-                    error: 'No hay materias'
-                });
+    Carrera.findOne({
+        _id: req.query.carrera
+    })
+        .populate('materias')
+        .exec((err, carrera) => {
+            var materias = [];
+            for (const materia of carrera.materias) {
+                if (materia.añoCarrera === req.query.anio) {
+                    materias.push(materia);
+                }
             }
 
             res.status(200).json({
                 message: 'Success',
                 obj: materias
             });
-        });
+        })
 }
 
 function getMateria(req, res) {

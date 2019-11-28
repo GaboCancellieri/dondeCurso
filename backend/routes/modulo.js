@@ -3,7 +3,7 @@ var express = require('express');
 var ModuloController = require('../controllers/modulo');
 var api = express.Router();
 
-api.get('/:idMateria', ModuloController.getModulos);
+api.get('/', ModuloController.getModulos);
 api.get('/:idModulo', ModuloController.getModulo);
 
 api.patch('/:idModulo', ModuloController.patchModulo);

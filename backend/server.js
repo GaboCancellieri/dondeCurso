@@ -13,21 +13,15 @@ app.use(cors());
 // use JWT auth to secure the api
 app.use(jwt());
 
-var carreraRoutes = require('./routes/carrera');
-var edificioRoutes = require('./routes/edificio');
-var materiaRoutes = require('./routes/materia');
-var moduloRoutes = require('./routes/modulo');
-var sitioRoutes = require('./routes/sitio');
-var unidadAcademicaRoutes = require('./routes/unidadAcademica');
-
 // api routes
 app.use('/api/users', require('./users/user.controller'));
-app.use('/api/carreras', carreraRoutes);
-app.use('/api/edificios', edificioRoutes);
-app.use('/api/materias', materiaRoutes);
-app.use('/api/modulos', moduloRoutes);
-app.use('/api/sitios', sitioRoutes);
-app.use('/api/unidadAcademicas', unidadAcademicaRoutes);
+app.use('/api/usuarios', require('./routes/usuario'));
+app.use('/api/sitios', require('./routes/sitio'));
+app.use('/api/data/carreras', require('./routes/carrera'));
+app.use('/api/data/edificios', require('./routes/edificio'));
+app.use('/api/data/materias', require('./routes/materia'));
+app.use('/api/data/modulos', require('./routes/modulo'));
+app.use('/api/data/unidadesAcademicas', require('./routes/unidadAcademica'));
 
 
 // global error handler

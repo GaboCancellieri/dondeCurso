@@ -42,9 +42,11 @@ export class LoginPage implements OnInit {
       .subscribe(usuario => {
         this.login = {};
         f.resetForm();
+        console.log(usuario);
         if (usuario.token) {
           this.router.navigate([this.returnUrl]);
           localStorage.setItem('currentUser', JSON.stringify(usuario));
+          localStorage.setItem('jwt', usuario.token);
           this.router.navigate(['/cuenta']);
         }
       });

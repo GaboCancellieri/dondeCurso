@@ -1,7 +1,7 @@
 var UnidadAcademica = require('../models/unidadAcademica');
 var Carrera = require('../models/carrera');
 
-function getUnidadAcademicas(req, res) {
+function getUnidadesAcademicas(req, res) {
     UnidadAcademica.find({})
         .exec((error, unidadAcademicas) => {
             if (error) {
@@ -140,7 +140,7 @@ function deleteUnidadAcademica(req, res) {
 }
 
 module.exports = {
-    getUnidadAcademicas,
+    getUnidadesAcademicas,
     getUnidadAcademica,
     patchUnidadAcademica,
     postUnidadAcademica,

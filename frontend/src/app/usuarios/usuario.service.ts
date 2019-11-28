@@ -8,10 +8,10 @@ import { Usuario } from '../usuarios/usuario';
 import { AlertController } from '@ionic/angular';
 
 @Injectable()
-export class AuthenticationService {
+export class UsuarioService {
 
     private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    private ingresoURL = this.urlService.getRestApiUrl() + '/api/users';  // URL to web api
+    private ingresoURL = this.urlService.getRestApiUrl() + '/api/usuarios';  // URL to web api
 
     constructor(
         private http: HttpClient,
@@ -22,36 +22,13 @@ export class AuthenticationService {
     // ************
     // *** POST ***
     // ************
-    iniciarSesion({ username, password }): Observable<any> {
-        return this.http.post(this.ingresoURL + '/authenticate', JSON.stringify({ username, password })
+    saveModulo({ usuario, modulo }): Observable<any> {
+        return this.http.patch(this.ingresoURL, JSON.stringify({ usuario, modulo })
             , { headers: this.headers }).pipe(
                 finalize(() => { }),
-                map((res: any) => res),
+                map((res: any) => res.obj),
                 catchError((err: any) => this.handleError(err))
             );
-    }
-
-    registrar({ nombre, apellido, email, password }): Observable<any> {
-        return this.http.post(this.ingresoURL + '/register', JSON.stringify({ nombre, apellido, email, password })
-            , { headers: this.headers }).pipe(
-                finalize(() => { }),
-                map((res: any) => res.json().obj),
-                catchError((err: any) => this.handleError(err))
-            );
-    }
-
-    logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('jwt');
-    }
-
-    isLogged() {
-        if (localStorage.getItem('currentUser')) {
-            return true;
-        }
-
-        return false;
     }
 
     // *************
