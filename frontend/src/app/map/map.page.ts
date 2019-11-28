@@ -4,8 +4,8 @@ import { AlertController } from '@ionic/angular';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import 'leaflet-routing-machine';
-import 'leaflet'
-import 'leaflet.markercluster'
+import 'leaflet';
+import 'leaflet.markercluster';
 declare let L;
 
 @Component({
@@ -71,7 +71,7 @@ export class MapPage implements OnInit {
                 if (this.capa) {
                     this.capa.clearLayers();
                 }
-                const markers =  L.markerClusterGroup();
+                const markers = L.markerClusterGroup();
                 for (const sitio of sitios) {
                     const customPopup =
                         `<div style="text-align: center;">
@@ -102,7 +102,7 @@ export class MapPage implements OnInit {
                     }).bindPopup(customPopup, customOptions));
                 }
 
-                //this.capa = L.layerGroup(markers).addTo(this.mapid);
+                // this.capa = L.layerGroup(markers).addTo(this.mapid);
                 this.mapid.addLayer(markers);
             });
     }
@@ -114,7 +114,7 @@ export class MapPage implements OnInit {
                 if (this.capa) {
                     this.capa.clearLayers();
                 }
-                const markers =  L.markerClusterGroup();
+                const markers = L.markerClusterGroup();
                 for (const sitio of sitios) {
                     const customPopup =
                         `<div style="text-align: center;">
@@ -146,7 +146,7 @@ export class MapPage implements OnInit {
                         .bindPopup(customPopup, customOptions));
                 }
 
-                //this.capa = L.layerGroup(markers).addTo(this.mapid);
+                // this.capa = L.layerGroup(markers).addTo(this.mapid);
                 this.mapid.addLayer(markers);
             });
     }

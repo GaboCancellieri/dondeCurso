@@ -2,7 +2,9 @@ var Carrera = require('../models/carrera');
 var Usuario = require('../models/usuario');
 
 function getCarreras(req, res) {
-    Carrera.find({})
+    Carrera.find({
+        unidadAcademica: req.query._id
+    })
         .exec((error, carreras) => {
             if (error) {
                 return res.status(404).json({
@@ -28,7 +30,7 @@ function getCarreras(req, res) {
 function getCarrera(req, res) {
     Carrera.findById(req.params.idCarrera)
         .populate('materias')
-        .populate({path: 'unidadAcademica', model: 'UnidadAcademica'})
+        .populate({ path: 'unidadAcademica', model: 'UnidadAcademica' })
         .exec((error, carrera) => {
             if (error) {
                 return res.status(404).json({

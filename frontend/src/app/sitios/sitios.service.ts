@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions, Response } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+
 
 // import 'rxjs/add/operator/toPromise';
 
@@ -12,11 +13,11 @@ import Swal from 'sweetalert2';
 @Injectable()
 export class SitioService {
 
-    private headers = new Headers({ 'Content-Type': 'application/json' });
+    private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     private sitioURL = this.urlService.getRestApiUrl() + '/api/sitios';  // URL to web api
 
     constructor(
-        private http: Http,
+        private http: HttpClient,
         private urlService: UrlService
     ) { }
 
@@ -26,21 +27,21 @@ export class SitioService {
     getSitios(params): Promise<Sitio[]> {
         return this.http.get(this.sitioURL, { params })
             .toPromise()
-            .then(response => response.json().obj as Sitio[])
+            .then(response => response as Sitio[])
             .catch(this.handleError);
     }
 
     getSitiosUnidadAcademica(params): Promise<Sitio[]> {
         return this.http.get(this.sitioURL + '/unidad/academica', { params })
             .toPromise()
-            .then(response => response.json().obj as Sitio[])
+            .then(response => response as Sitio[])
             .catch(this.handleError);
     }
 
     getSitio(id: string): Promise<Sitio> {
         return this.http.get(this.sitioURL + '/' + id)
             .toPromise()
-            .then(response => response.json().obj as Sitio)
+            .then(response => response as Sitio)
             .catch(this.handleError);
     }
 
@@ -52,7 +53,7 @@ export class SitioService {
             .post(this.sitioURL, JSON.stringify({ nombre: nomb, descripcion: descrip }), { headers: this.headers })
             .toPromise()
             .then(res => {
-                return res.json().obj as Sitio;
+                return res as Sitio;
             })
             .catch(this.handleError);
     }
@@ -66,7 +67,7 @@ export class SitioService {
                 { nombre: nomb, descripcion: descrip }), { headers: this.headers })
             .toPromise()
             .then(res => {
-                return res.json().obj;
+                return res;
             })
             .catch(this.handleError);
     }
@@ -80,7 +81,7 @@ export class SitioService {
                 { headers: this.headers })
             .toPromise()
             .then(res => {
-                return res.json().obj;
+                return res;
             })
             .catch(this.handleError);
 

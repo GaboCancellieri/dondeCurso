@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            Cuenta Personal
+        </ion-title>
+        <ion-chip color="danger" slot="end" (click)="logout()">
+            <ion-icon name="log-out"></ion-icon>
+        </ion-chip>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="main">
+    <img class="center" style="width: 40%;" src="../../assets/img/avatar-1.png">
+    <ion-card-header>
+        <ion-card-title style="color: white; text-align: center;">
+            {{usuario.apellido}}, {{usuario.nombre}}
+        </ion-card-title>
+    </ion-card-header>
+    <ion-card>
+        <ion-card-content>
+            <ion-button class="darkText" expand="full" color="primary" fill="outline">Calendario
+                <ion-icon name="calendar" slot="start"></ion-icon>
+                <ion-icon name="calendar" slot="end"></ion-icon>
+            </ion-button>
+            <ion-button expand="full" color="secondary" fill="outline">Clases
+                <ion-icon name="book" slot="start"></ion-icon>
+                <ion-icon name="book" slot="end"></ion-icon>
+            </ion-button>
+            <ion-button expand="full" color="success" fill="outline" (click)="modalAgregarClase()">Añadir clase
+                <ion-icon name="add" slot="start"></ion-icon>
+                <ion-icon name="add" slot="end"></ion-icon>
+            </ion-button>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

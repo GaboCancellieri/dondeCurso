@@ -89,19 +89,50 @@ ion-item {
   --highlight-color-invalid: #0cd1e8 !important;
 }
 
-ion-item.myInvalid { 
+ion-item.myInvalid {
   --border-width: 0 0 0.70px 0 !important;
   --border-color: red !important;
   --highlight-color-focused: red !important;
   --highlight-color-valid: red !important;
   --highlight-color-invalid: red !important;
 }
-ion-item.myValid   { 
+
+ion-item.myValid {
   --border-width: 0 0 0.70px 0 !important;
   --border-color: green !important;
   --highlight-color-focused: green !important;
   --highlight-color-valid: green !important;
   --highlight-color-invalid: green !important;
+}
+
+.alertDanger {
+  color: red !important;
+
+  button {
+    color: red !important;
+  }
+}
+
+.alertDanger .alert-wrapper {
+  background-color: #F35E5D;
+}
+
+.alertSuccess {
+  color: green !important;
+
+  button {
+    color: green !important;
+  }
+}
+
+.alertSuccess .alert-wrapper {
+  background-color: rgb(93, 243, 106);
+  margin-bottom: 40% !important;
+}
+
+img.center {
+  display: block;
+  margin: 0 auto;
 }
 
 .leaflet-control-container .leaflet-routing-container-hide {
