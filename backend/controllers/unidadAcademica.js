@@ -1,28 +1,8 @@
 var UnidadAcademica = require('../models/unidadAcademica');
 var Carrera = require('../models/carrera');
 
-function getUnidadesAcademicas(req, res) {
-    UnidadAcademica.find({})
-        .exec((error, unidadAcademicas) => {
-            if (error) {
-                return res.status(404).json({
-                    title: 'Error',
-                    error: error
-                });
-            }
-
-            if (!unidadAcademicas) {
-                return res.status(404).json({
-                    title: 'Error',
-                    error: 'No hay unidadAcademicas'
-                });
-            }
-
-            res.status(200).json({
-                message: 'Success',
-                obj: unidadAcademicas
-            });
-        });
+async function getUnidadesAcademicas() {
+    return UnidadAcademica.find({});
 }
 
 function getUnidadAcademica(req, res) {

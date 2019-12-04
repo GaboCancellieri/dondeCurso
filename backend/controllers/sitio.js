@@ -20,7 +20,6 @@ async function getSitios(req, res) {
 }
 
 async function getSitiosUnidadAcademica(req, res) {
-    console.log(req.query.unidadAcademica)
     try {
         var idsSitios = [];
         if (req.query.unidadAcademica) {

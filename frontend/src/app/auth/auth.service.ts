@@ -6,15 +6,16 @@ import { catchError, finalize, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { Usuario } from '../usuarios/usuario';
 import { AlertController } from '@ionic/angular';
+import { Server } from '../shared/server.service';
 
 @Injectable()
 export class AuthenticationService {
 
     private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    private ingresoURL = this.urlService.getRestApiUrl() + '/api/users';  // URL to web api
+    private ingresoURL = this.urlService.getRestApiUrl() + '/users';  // URL to web api
 
     constructor(
-        private http: HttpClient,
+        private server: Server,
         private urlService: UrlService,
         public alertController: AlertController
     ) { }
@@ -23,8 +24,8 @@ export class AuthenticationService {
     // *** POST ***
     // ************
     iniciarSesion({ username, password }): Observable<any> {
-        return this.http.post(this.ingresoURL + '/authenticate', JSON.stringify({ username, password })
-            , { headers: this.headers }).pipe(
+        return this.server.post(this.ingresoURL + '/authenticate', { username, password })
+            .pipe(
                 finalize(() => { }),
                 map((res: any) => res),
                 catchError((err: any) => this.handleError(err))
@@ -32,10 +33,10 @@ export class AuthenticationService {
     }
 
     registrar({ nombre, apellido, email, password }): Observable<any> {
-        return this.http.post(this.ingresoURL + '/register', JSON.stringify({ nombre, apellido, email, password })
-            , { headers: this.headers }).pipe(
+        return this.server.post(this.ingresoURL + '/register', { nombre, apellido, email, password })
+            .pipe(
                 finalize(() => { }),
-                map((res: any) => res.json().obj),
+                map((res: any) => res.obj),
                 catchError((err: any) => this.handleError(err))
             );
     }
@@ -59,7 +60,7 @@ export class AuthenticationService {
     // *************
     private handleError(response: any) {
         let message;
-        console.log(response);
+
         if (response.error && response.error.message) {
             message = response.error.message;
         } else {

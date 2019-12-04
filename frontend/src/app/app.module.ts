@@ -20,6 +20,7 @@ import { ModalAgregarClasePage } from './modals/agregar-clase/agregar-clase.page
 import { DataService } from './shared/data.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { UsuarioService } from './usuarios/usuario.service';
+import { Server } from './shared/server.service';
 
 @NgModule({
   declarations: [AppComponent, ModalAgregarClasePage],
@@ -44,6 +45,7 @@ import { UsuarioService } from './usuarios/usuario.service';
     AuthGuard,
     SitioService,
     UsuarioService,
+    Server,
     WINDOW_PROVIDERS,
     HttpClient,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

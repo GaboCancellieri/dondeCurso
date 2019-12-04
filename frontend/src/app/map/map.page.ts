@@ -64,13 +64,16 @@ export class MapPage implements OnInit {
 
     getSitio() {
         this.sitioService.getSitios({ nombre: this.nombreSitio })
-            .then(sitios => {
+            .subscribe(sitios => {
+                if (this.capa) {
+                    this.mapid.removeLayer(this.capa);
+                }
                 this.mostrarSitioInput = false;
                 this.selectedUnidadAcademica = null;
                 this.nombreSitio = null;
-                if (this.capa) {
-                    this.capa.clearLayers();
-                }
+                // if (this.capa) {
+                //     this.capa.clearLayers();
+                // }
                 const markers = L.markerClusterGroup();
                 for (const sitio of sitios) {
                     const customPopup =
@@ -102,18 +105,21 @@ export class MapPage implements OnInit {
                     }).bindPopup(customPopup, customOptions));
                 }
 
-                // this.capa = L.layerGroup(markers).addTo(this.mapid);
+                this.capa = markers;
                 this.mapid.addLayer(markers);
             });
     }
 
     getSitiosUnidadAcademica() {
         this.sitioService.getSitiosUnidadAcademica({ unidadAcademica: this.selectedUnidadAcademica })
-            .then(sitios => {
-                this.mostrarUnidadAcademica = false;
+            .subscribe(sitios => {
                 if (this.capa) {
-                    this.capa.clearLayers();
+                    this.mapid.removeLayer(this.capa);
                 }
+                this.mostrarUnidadAcademica = false;
+                // if (this.capa) {
+                //     this.capa.clearLayers();
+                // }
                 const markers = L.markerClusterGroup();
                 for (const sitio of sitios) {
                     const customPopup =
@@ -146,7 +152,7 @@ export class MapPage implements OnInit {
                         .bindPopup(customPopup, customOptions));
                 }
 
-                // this.capa = L.layerGroup(markers).addTo(this.mapid);
+                this.capa = markers;
                 this.mapid.addLayer(markers);
             });
     }

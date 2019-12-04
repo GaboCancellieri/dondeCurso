@@ -87,6 +87,10 @@ ion-item {
   --highlight-color-focused: #0cd1e8 !important;
   --highlight-color-valid: #0cd1e8 !important;
   --highlight-color-invalid: #0cd1e8 !important;
+
+  ion-label {
+    color: #0cd1e8 !important
+  }
 }
 
 ion-item.myInvalid {
@@ -105,6 +109,14 @@ ion-item.myValid {
   --highlight-color-invalid: green !important;
 }
 
+.toast-container {
+  background: yellow;
+}
+
+.toast-md .toast-message {
+  color: red;
+}
+
 .alertDanger {
   color: red !important;
 
@@ -114,7 +126,9 @@ ion-item.myValid {
 }
 
 .alertDanger .alert-wrapper {
-  background-color: #F35E5D;
+  background-color: rgb(224, 224, 224);
+  color: black !important;
+
 }
 
 .alertSuccess {

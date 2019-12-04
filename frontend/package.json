@@ -43,7 +43,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "leaflet.markercluster": "^1.4.1",
     "rxjs": "^6.5.3",
-    "sweetalert2": "^9.3.16",
+    "sweetalert2": "^9.4.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },

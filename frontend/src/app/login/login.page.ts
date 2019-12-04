@@ -16,6 +16,8 @@ export class LoginPage implements OnInit {
   new: any = {};
   validEmail = false;
   validPass = false;
+  validNombre = false;
+  validApellido = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -34,6 +36,8 @@ export class LoginPage implements OnInit {
   }
 
   toggle() {
+    this.new = {};
+    this.login = {};
     this.ingresar = !this.ingresar;
   }
 
@@ -42,7 +46,7 @@ export class LoginPage implements OnInit {
       .subscribe(usuario => {
         this.login = {};
         f.resetForm();
-        console.log(usuario);
+
         if (usuario.token) {
           this.router.navigate([this.returnUrl]);
           localStorage.setItem('currentUser', JSON.stringify(usuario));
@@ -53,13 +57,18 @@ export class LoginPage implements OnInit {
   }
 
   registrar(f: NgForm) {
-    this.authService.registrar({ nombre: this.new.nombre, apellido: this.new.apellido, email: this.new.email, password: this.new.pass })
+    this.authService.registrar({
+      nombre: this.new.nombre.trim(),
+      apellido: this.new.apellido.trim(),
+      email: this.new.email.toLowerCase(),
+      password: this.new.pass
+    })
       .subscribe(response => {
-        this.toggle();
-        this.new = {};
-        f.resetForm();
         if (response !== undefined && response.success) {
           this.alertaUsuarioCreado();
+          this.toggle();
+          this.new = {};
+          f.resetForm();
         }
       });
   }
@@ -83,5 +92,20 @@ export class LoginPage implements OnInit {
   validatePass(pass) {
     const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     this.validPass = re.test(String(pass));
+  }
+
+  validateOnlyLetters(modo) {
+    const re = /^[a-zA-Z \u00C0-\u00FF]*$/;
+    if (modo === 'nombre') {
+      if (this.new.nombre === '') {
+        this.validNombre = false;
+      } else {
+        this.validNombre = re.test(this.new.nombre);
+      }
+    } else if (this.new.apellido === '') {
+      this.validApellido = false;
+    } else {
+      this.validApellido = re.test(this.new.apellido);
+    }
   }
 }

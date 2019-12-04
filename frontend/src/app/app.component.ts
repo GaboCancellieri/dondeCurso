@@ -4,6 +4,9 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './auth/auth.service';
+import { environment } from 'src/environments/environment';
+import { Server } from './shared/server.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -28,9 +31,13 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private server: Server,
+    private router: Router
   ) {
+    server.setBaseURL(environment.API);
     this.initializeApp();
+
   }
 
   initializeApp() {
@@ -40,19 +47,11 @@ export class AppComponent {
     });
   }
 
+  goTo(url) {
+    this.router.navigate([url]);
+  }
+
   isLogged() {
-    if (this.authService.isLogged()) {
-      if (this.appPages.length === 2) {
-        this.appPages.splice(1, 0, {
-          title: 'Cuenta Personal',
-          url: '/cuenta',
-          icon: 'person'
-        });
-      }
-    } else {
-      if (this.appPages.length === 3) {
-        this.appPages.splice(1, 1);
-      }
-    }
+    return this.authService.isLogged();
   }
 }

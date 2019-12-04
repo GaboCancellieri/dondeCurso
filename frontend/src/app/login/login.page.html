@@ -3,103 +3,147 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      Ingresar
+    <ion-title *ngIf="ingresar">
+      Iniciar sesion
+    </ion-title>
+    <ion-title *ngIf="!ingresar">
+      Nuevo usuario
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="main">
-  <ion-card class="welcome-card" *ngIf="ingresar">
-    <ion-card-header>
-      <ion-card-title style=" color: white;">Iniciar sesion</ion-card-title>
-    </ion-card-header>
-    <ion-card-content style=" color: #ebebeb;">
-      <form #f="ngForm" (ngSubmit)="login.usuario && login.pass && iniciarSesion(f)" novalidate>
-        <ion-list lines="full" class="ion-no-margin ion-no-padding">
-          <ion-item>
-            <ion-input required placeholder="Usuario" type="text" [(ngModel)]="login.usuario" name="usuario">
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input required placeholder="Contraseña" type="password" [(ngModel)]="login.pass" name="pass">
-            </ion-input>
-          </ion-item>
-        </ion-list>
-        <ion-button color="secondary" size="default" style="margin-top: 4vh;" (click)="toggle()">
-          <ion-icon slot="icon-only" name="person-add"></ion-icon>
-        </ion-button>
-        <ion-button color="primary" type="submit" size="default" class="ion-float-right" style="margin-top: 4vh;"
-                    [disabled]="!login.usuario || !login.pass">
-          <ion-icon slot="icon-only" name="log-in"></ion-icon>
-        </ion-button>
-      </form>
-    </ion-card-content>
-  </ion-card>
-  <ion-card class="welcome-card" *ngIf="!ingresar">
-    <ion-card-header>
-      <ion-card-title style=" color: white;">Nuevo usuario</ion-card-title>
-    </ion-card-header>
-    <ion-card-content style=" color: #ebebeb;">
-      <form #f="ngForm" (ngSubmit)="new.nombre && new.apellido && new.email && new.pass && registrar(f)" novalidate>
-        <ion-list lines="full" class="ion-no-margin ion-no-padding">
-          <ion-item [class.myInvalid]="f.submitted && !new.nombre" [class.myValid]="f.submitted && new.nombre">
-            <ion-input placeholder="Nombre" type="text" [(ngModel)]="new.nombre" name="nombre"></ion-input>
-          </ion-item>
-          <ion-item [class.myInvalid]="f.submitted && !new.apellido" [class.myValid]="f.submitted && new.apellido">
-            <ion-input placeholder="Apellido" type="text" [(ngModel)]="new.apellido" name="apellido"></ion-input>
-          </ion-item>
-          <ion-item [class.myInvalid]="f.submitted && !validEmail" [class.myValid]="f.submitted && validEmail">
-            <ion-input placeholder="Email" type="text" [(ngModel)]="new.email" name="email"
-                       (ngModelChange)="validateEmail($event)"></ion-input>
-            <ion-button *ngIf="f.submitted && !validEmail" color="danger">
-              <ion-icon slot="icon-only" size="small" name="close"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <ion-item [class.myInvalid]="f.submitted && !validPass" [class.myValid]="f.submitted && validPass">
-            <ion-input placeholder="Contraseña" type="password" [(ngModel)]="new.pass" name="password"
-                       (ngModelChange)="validatePass($event)"></ion-input>
-            <ion-button *ngIf="f.submitted && !validPass" color="danger">
-              <ion-icon slot="icon-only" size="small" name="close"></ion-icon>
-            </ion-button>
-          </ion-item>
-        </ion-list>
-        <ion-card style="background: #ffdede !important;">
-          <ion-card-content *ngIf="f.submitted && (!validEmail || !validPass)">
-            <ul>
-              <li *ngIf="f.submitted && !validEmail">
-                <p style="color: rgb(196, 0, 0) !important; background: inherit !important;"><strong>Email
-                    inválido</strong></p>
-              </li>
-              <li *ngIf="f.submitted && !validPass">
-                <p style="color: rgb(196, 0, 0) !important; background: inherit !important;"><strong>La contraseña debe
-                    tener mínimo 8 caracteres, entre ellos: </strong></p>
-                <ul style="color:black !important ">
-                  <li>
-                    <p>Un número</p>
-                  </li>
-                  <li>
-                    <p>Una letra mayúscula</p>
-                  </li>
-                  <li>
-                    <p>Una letra minúscula</p>
-                  </li>
-                  <li>
-                    <p>Un caracter especial</p>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </ion-card-content>
-        </ion-card>
-        <ion-button color="danger" size="default" style="margin-top: 4vh;" (click)="toggle();">
-          <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
-        </ion-button>
-        <ion-button color="secondary" type="submit" size="default" class="ion-float-right" style="margin-top: 4vh;"
-                    [disabled]="!new.nombre || !new.apellido || !new.email || !new.pass">
-          <ion-icon slot="icon-only" name="person-add"></ion-icon>
-        </ion-button>
-      </form>
-    </ion-card-content>
-  </ion-card>
+  <ion-grid style="height: 100%">
+    <ion-row class="ion-align-items-center ion-justify-content-center" style="height: 100%">
+      <ion-card id="login-card" *ngIf="ingresar">
+        <form #f="ngForm" (ngSubmit)="login.usuario && login.pass && iniciarSesion(f)" novalidate>
+          <ion-list lines="full" class="ion-no-margin ion-no-padding">
+            <ion-item>
+              <ion-label fixed>Usuario:</ion-label>
+              <ion-input required type="text" [(ngModel)]="login.usuario" name="usuario">
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label fixed>Contraseña:</ion-label>
+              <ion-input required type="password" [(ngModel)]="login.pass" name="pass">
+              </ion-input>
+            </ion-item>
+            <div style="background-color: #043345;">
+              <ion-button color="primary" type="submit" size="default" expand="full"
+                          [disabled]="!login.usuario || !login.pass">
+                <ion-icon slot="icon-only" name="log-in"></ion-icon>
+              </ion-button>
+            </div>
+            <div style="background-color: #043345;">
+              <ion-button color="secondary" size="default" (click)="toggle()" expand="full">
+                <ion-icon slot="icon-only" name="person-add"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-list>
+        </form>
+      </ion-card>
+
+      <ion-card class="welcome-card" *ngIf="!ingresar">
+        <form #f="ngForm" (ngSubmit)="new.nombre && validNombre && new.apellido
+          && validApellido && new.email && validEmail
+          && new.pass && validPass && registrar(f)" novalidate>
+          <ion-list lines="full" class="ion-no-margin ion-no-padding">
+            <ion-item [class.myInvalid]="f.submitted && !validNombre" [class.myValid]="f.submitted && validNombre">
+              <ion-label fixed>Nombre:</ion-label>
+              <ion-input type="text" [(ngModel)]="new.nombre" name="nombre"
+                         (ngModelChange)="validateOnlyLetters('nombre')"></ion-input>
+              <ion-button *ngIf="f.submitted && new.nombre && validNombre" color="success">
+                <ion-icon slot="icon-only" size="small" name="checkmark-circle"></ion-icon>
+              </ion-button>
+              <ion-button *ngIf="f.submitted && !validNombre" color="danger">
+                <ion-icon slot="icon-only" size="small" name="close-circle"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <ion-item [class.myInvalid]="f.submitted && (!new.apellido || !validApellido)"
+                      [class.myValid]="f.submitted && new.apellido && validApellido">
+              <ion-label fixed>Apellido:</ion-label>
+              <ion-input type="text" [(ngModel)]="new.apellido" name="apellido"
+                         (ngModelChange)="validateOnlyLetters('apellido')"></ion-input>
+              <ion-button *ngIf="f.submitted && new.apellido && validApellido" color="success">
+                <ion-icon slot="icon-only" size="small" name="checkmark-circle"></ion-icon>
+              </ion-button>
+              <ion-button *ngIf="f.submitted && (!new.apellido || !validApellido)" color="danger">
+                <ion-icon slot="icon-only" size="small" name="close-circle"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <ion-item [class.myInvalid]="f.submitted && !validEmail" [class.myValid]="f.submitted && validEmail">
+              <ion-label fixed>Email:</ion-label>
+              <ion-input type="text" [(ngModel)]="new.email" name="email" (ngModelChange)="validateEmail($event)">
+              </ion-input>
+              <ion-button *ngIf="f.submitted && new.apellido && validEmail" color="success">
+                <ion-icon slot="icon-only" size="small" name="checkmark-circle"></ion-icon>
+              </ion-button>
+              <ion-button *ngIf="f.submitted && !validEmail" color="danger">
+                <ion-icon slot="icon-only" size="small" name="close-circle"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <ion-item [class.myInvalid]="f.submitted && !validPass" [class.myValid]="f.submitted && validPass">
+              <ion-label fixed>Contraseña:</ion-label>
+              <ion-input type="password" [(ngModel)]="new.pass" name="password" (ngModelChange)="validatePass($event)">
+              </ion-input>
+              <ion-button *ngIf="f.submitted && new.apellido && validPass" color="success">
+                <ion-icon slot="icon-only" size="small" name="checkmark-circle"></ion-icon>
+              </ion-button>
+              <ion-button *ngIf="f.submitted && !validPass" color="danger">
+                <ion-icon slot="icon-only" size="small" name="close-circle"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <div style="background-color: #043345;">
+              <ion-button color="secondary" type="submit" size="default" expand="full"
+                          [disabled]="!new.nombre || !new.apellido || !new.email || !new.pass">
+                <ion-icon slot="icon-only" name="person-add"></ion-icon>
+              </ion-button>
+            </div>
+            <div style="background-color: #043345;">
+              <ion-button color="danger" size="default" (click)="toggle();" expand="full">
+                <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-list>
+          <ion-card style="background: #ffdede !important;">
+            <ion-card-content *ngIf="f.submitted && (!validEmail || !validPass || !validNombre || !validApellido )">
+              <ul>
+                <li *ngIf="f.submitted && !validNombre">
+                  <p style="color: rgb(196, 0, 0) !important; background: inherit !important;"><strong>Nombre
+                      inválido</strong></p>
+                </li>
+                <li *ngIf="f.submitted && !validApellido">
+                  <p style="color: rgb(196, 0, 0) !important; background: inherit !important;"><strong>Apellido
+                      inválido</strong></p>
+                </li>
+                <li *ngIf="f.submitted && !validEmail">
+                  <p style="color: rgb(196, 0, 0) !important; background: inherit !important;"><strong>Email
+                      inválido</strong></p>
+                </li>
+                <li *ngIf="f.submitted && !validPass">
+                  <p style="color: rgb(196, 0, 0) !important; background: inherit !important;"><strong>La contraseña
+                      debe
+                      tener mínimo 8 caracteres, entre ellos: </strong></p>
+                  <ul style="color:black !important ">
+                    <li>
+                      <p>Un número</p>
+                    </li>
+                    <li>
+                      <p>Una letra mayúscula</p>
+                    </li>
+                    <li>
+                      <p>Una letra minúscula</p>
+                    </li>
+                    <li>
+                      <p>Un caracter especial</p>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </ion-card-content>
+          </ion-card>
+        </form>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
 </ion-content>
