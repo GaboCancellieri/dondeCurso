@@ -46,13 +46,14 @@ async function create(userParam) {
     userParam.nombre = userParam.nombre.replace(/ /g, '.');
     userParam.apellido = userParam.apellido.replace(/ /g, '.');
     userParam.username = userParam.nombre.toLowerCase() + '.' + userParam.apellido.toLowerCase();
+    userParam.email = userParam.email.toLowerCase();
     var re = new RegExp(userParam.username, 'g')
 
     // validate email
     const userEmail = await User.findOne({
         email: userParam.email,
     });
-    console.log(userEmail)
+
     if (userEmail) {
         throw 'Email "' + userParam.email + '" está en uso.';
     }
@@ -77,20 +78,20 @@ async function create(userParam) {
     // save user
     await user.save();
 
-    // var mailOptions = {
-    //     from: 'donde.curso.uncoma@gmail.com',
-    //     to: userParam.email,
-    //     subject: '¿DONDE CURSO? - USUARIO',
-    //     text: 'Su nombre de usuario para ingresar es: ' + userParam.username
-    // };
+    var mailOptions = {
+        from: 'donde.curso.uncoma@gmail.com',
+        to: userParam.email,
+        subject: '¿DONDE CURSO? - USUARIO',
+        text: 'Su nombre de usuario para ingresar es: ' + userParam.username
+    };
 
-    // transporter.sendMail(mailOptions, function (error, info) {
-    //     if (error) {
-    //         console.log(error);
-    //     } else {
-    //         console.log('Email sent: ' + info.response);
-    //     }
-    // });
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
 
     return {
         message: 'Success',

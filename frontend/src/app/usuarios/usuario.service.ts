@@ -36,7 +36,7 @@ export class UsuarioService {
     // *************
     private handleError(response: any) {
         let message;
-        console.log(response);
+
         if (response.error && response.error.message) {
             message = response.error.message;
         } else {

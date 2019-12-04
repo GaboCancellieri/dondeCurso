@@ -19,7 +19,7 @@ function patchUsuario(req, res) {
             }
 
             var modulo = usuario.modulos.map(m => m !== req.body.modulo);
-            console.log(modulo)
+
             if (modulo.length === 0) {
                 usuario.modulos.push(req.body.modulo)
             }

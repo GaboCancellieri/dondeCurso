@@ -36,6 +36,7 @@ export class ModalAgregarClasePage implements OnInit {
     getUnidadesAcademicas() {
         this.dataService.getUnidadesAcademicas()
             .subscribe(unidadesAcademicas => {
+                console.log(unidadesAcademicas);
                 this.unidadesAcademicas = unidadesAcademicas;
             });
     }

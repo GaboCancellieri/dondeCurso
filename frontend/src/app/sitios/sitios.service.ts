@@ -5,10 +5,10 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 // import 'rxjs/add/operator/toPromise';
 
 import { Sitio } from './sitio';
-
-import { Config } from '../config';
 import { UrlService } from '../window.provider.service';
 import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
+import { finalize, map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class SitioService {
@@ -24,25 +24,31 @@ export class SitioService {
     // ***********
     // *** GET ***
     // ***********
-    getSitios(params): Promise<Sitio[]> {
+    getSitios(params): Observable<any> {
         return this.http.get(this.sitioURL, { params })
-            .toPromise()
-            .then(response => response as Sitio[])
-            .catch(this.handleError);
+            .pipe(
+                finalize(() => { }),
+                map((res: any) => res.obj),
+                catchError((err: any) => this.handleError(err))
+            );
     }
 
-    getSitiosUnidadAcademica(params): Promise<Sitio[]> {
+    getSitiosUnidadAcademica(params): Observable<any> {
         return this.http.get(this.sitioURL + '/unidad/academica', { params })
-            .toPromise()
-            .then(response => response as Sitio[])
-            .catch(this.handleError);
+            .pipe(
+                finalize(() => { }),
+                map((res: any) => res.obj),
+                catchError((err: any) => this.handleError(err))
+            );
     }
 
-    getSitio(id: string): Promise<Sitio> {
-        return this.http.get(this.sitioURL + '/' + id)
-            .toPromise()
-            .then(response => response as Sitio)
-            .catch(this.handleError);
+    getSitio(params): Observable<any> {
+        return this.http.get(this.sitioURL + '/', { params })
+            .pipe(
+                finalize(() => { }),
+                map((res: any) => res.obj),
+                catchError((err: any) => this.handleError(err))
+            );
     }
 
     // ************

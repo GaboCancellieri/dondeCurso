@@ -11,8 +11,8 @@ function jwt() {
             // public routes that don't require authentication
             '/api/users/authenticate',
             '/api/users/register',
+            '/api/sitios/unidad/academica',
             '/api/sitios',
-            '/api/data/unidadesAcademicas',
             '/api/data/carreras',
             '/api/data/materias',
             '/api/data/modulos',
