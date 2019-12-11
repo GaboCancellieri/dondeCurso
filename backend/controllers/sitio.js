@@ -23,9 +23,8 @@ async function getSitiosUnidadAcademica(req, res) {
     try {
         var idsSitios = [];
         if (req.query.unidadAcademica) {
-            var unidadAcademica = await UnidadAcademica.findOne({
-                nombre: req.query.unidadAcademica
-            }).populate('edificios');
+            var unidadAcademica = await UnidadAcademica.findById(req.query.unidadAcademica)
+                .populate('edificios');
 
             for (const edificio of unidadAcademica.edificios) {
                 idsSitios.push(...edificio.sitios)

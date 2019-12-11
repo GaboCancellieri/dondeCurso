@@ -9,6 +9,7 @@ import { MapPage } from './map.page';
 import { SitioService } from '../sitios/sitios.service';
 import { WINDOW_PROVIDERS } from '../window.provider';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { BuscarMapaPage } from '../modals/buscar-mapa/buscar-mapa.page';
 
 @NgModule({
     imports: [
@@ -25,7 +26,14 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
             apiKey: 'GOOGLE_API_KEY'
         })
     ],
-    declarations: [MapPage],
+    declarations: [
+        MapPage,
+        BuscarMapaPage
+    ],
+    entryComponents: [
+        BuscarMapaPage
+
+    ],
     providers: [
         SitioService,
         WINDOW_PROVIDERS,

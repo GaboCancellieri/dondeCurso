@@ -9,37 +9,35 @@ import { UrlService } from '../window.provider.service';
 import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { finalize, map, catchError } from 'rxjs/operators';
+import { Server } from '../shared/server.service';
 
 @Injectable()
 export class SitioService {
 
     private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    private sitioURL = this.urlService.getRestApiUrl() + '/api/sitios';  // URL to web api
+    private sitioURL = this.urlService.getRestApiUrl() + '/sitios';  // URL to web api
 
     constructor(
         private http: HttpClient,
-        private urlService: UrlService
+        private urlService: UrlService,
+        private server: Server
     ) { }
 
     // ***********
     // *** GET ***
     // ***********
     getSitios(params): Observable<any> {
-        return this.http.get(this.sitioURL, { params })
-            .pipe(
-                finalize(() => { }),
-                map((res: any) => res.obj),
-                catchError((err: any) => this.handleError(err))
-            );
+        return this.server.get(this.sitioURL, {
+            params,
+            showError: true
+        });
     }
 
     getSitiosUnidadAcademica(params): Observable<any> {
-        return this.http.get(this.sitioURL + '/unidad/academica', { params })
-            .pipe(
-                finalize(() => { }),
-                map((res: any) => res.obj),
-                catchError((err: any) => this.handleError(err))
-            );
+        return this.server.get(this.sitioURL + '/unidad/academica', {
+            params,
+            showError: true
+        });
     }
 
     getSitio(params): Observable<any> {

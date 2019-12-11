@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SitioService } from '../sitios/sitios.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import 'leaflet-routing-machine';
 import 'leaflet';
 import 'leaflet.markercluster';
+import { BuscarMapaPage } from '../modals/buscar-mapa/buscar-mapa.page';
 declare let L;
 
 @Component({
@@ -20,14 +21,16 @@ export class MapPage implements OnInit {
     mostrarSitioInput = false;
     nombreSitio;
     public center = [-38.940629, -68.055402];
-
+    modalBuscar: any;
     constructor(
         private sitioService: SitioService,
         public alertController: AlertController,
-        private geolocation: Geolocation
+        private geolocation: Geolocation,
+        private modalController: ModalController,
     ) {
 
     }
+
     ngOnInit() {
 
     }
@@ -62,22 +65,14 @@ export class MapPage implements OnInit {
         });
     }
 
-    getSitio() {
-        this.sitioService.getSitios({ nombre: this.nombreSitio })
-            .subscribe(sitios => {
-                if (this.capa) {
-                    this.mapid.removeLayer(this.capa);
-                }
-                this.mostrarSitioInput = false;
-                this.selectedUnidadAcademica = null;
-                this.nombreSitio = null;
-                // if (this.capa) {
-                //     this.capa.clearLayers();
-                // }
-                const markers = L.markerClusterGroup();
-                for (const sitio of sitios) {
-                    const customPopup =
-                        `<div style="text-align: center;">
+    updateMapa(sitios) {
+        this.mostrarSitioInput = false;
+        this.selectedUnidadAcademica = null;
+        this.nombreSitio = null;
+        const markers = L.markerClusterGroup();
+        for (const sitio of sitios) {
+            const customPopup =
+                `<div style="text-align: center;">
             <div style="color: #000 !important; font-size: 18px;">
               ${sitio.nombre}
             </div>
@@ -86,75 +81,27 @@ export class MapPage implements OnInit {
             </div>
         </div>`;
 
-                    // specify popup options
-                    const customOptions = {
-                        className: 'custom'
-                    };
+            // specify popup options
+            const customOptions = {
+                className: 'custom'
+            };
 
-                    // create marker object, pass custom icon as option, pass content and options to popup, add to map
-                    markers.addLayer(L.marker([sitio.latitud, sitio.longitud], {
-                        icon: new L.Icon({
-                            iconUrl: '../../assets/leaflet/images/marker-icon.png',
-                            retinaUrl: '../../assets/leaflet/images/marker-icon-2x.png',
-                            shadowUrl: '../../assets/leaflet/images/marker-shadow.png',
-                            iconSize: [25, 41],
-                            iconAnchor: [12, 41],
-                            popupAnchor: [1, -34],
-                            shadowSize: [41, 41]
-                        })
-                    }).bindPopup(customPopup, customOptions));
-                }
+            // create marker object, pass custom icon as option, pass content and options to popup, add to map
+            markers.addLayer(L.marker([sitio.latitud, sitio.longitud], {
+                icon: new L.Icon({
+                    iconUrl: '../../assets/leaflet/images/marker-icon.png',
+                    retinaUrl: '../../assets/leaflet/images/marker-icon-2x.png',
+                    shadowUrl: '../../assets/leaflet/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                })
+            }).bindPopup(customPopup, customOptions));
+        }
 
-                this.capa = markers;
-                this.mapid.addLayer(markers);
-            });
-    }
-
-    getSitiosUnidadAcademica() {
-        this.sitioService.getSitiosUnidadAcademica({ unidadAcademica: this.selectedUnidadAcademica })
-            .subscribe(sitios => {
-                if (this.capa) {
-                    this.mapid.removeLayer(this.capa);
-                }
-                this.mostrarUnidadAcademica = false;
-                // if (this.capa) {
-                //     this.capa.clearLayers();
-                // }
-                const markers = L.markerClusterGroup();
-                for (const sitio of sitios) {
-                    const customPopup =
-                        `<div style="text-align: center;">
-              <div style="color: #000 !important; font-size: 18px;">
-                ${sitio.nombre}
-              </div>
-              <div style="color: #043345 !important; font-size: 15px;">
-                <strong>${sitio.piso}</strong>
-              </div>
-          </div>`;
-
-                    // specify popup options
-                    const customOptions = {
-                        className: 'custom'
-                    };
-
-                    // create marker object, pass custom icon as option, pass content and options to popup, add to map
-                    markers.addLayer(L.marker([sitio.latitud, sitio.longitud], {
-                        icon: new L.Icon({
-                            iconUrl: '../../assets/leaflet/images/marker-icon.png',
-                            retinaUrl: '../../assets/leaflet/images/marker-icon-2x.png',
-                            shadowUrl: '../../assets/leaflet/images/marker-shadow.png',
-                            iconSize: [25, 41],
-                            iconAnchor: [12, 41],
-                            popupAnchor: [1, -34],
-                            shadowSize: [41, 41]
-                        })
-                    })
-                        .bindPopup(customPopup, customOptions));
-                }
-
-                this.capa = markers;
-                this.mapid.addLayer(markers);
-            });
+        this.capa = markers;
+        this.mapid.addLayer(markers);
     }
 
     toggleUnidadAcademica() {
@@ -165,6 +112,28 @@ export class MapPage implements OnInit {
     toggleSitioInput() {
         this.mostrarSitioInput = !this.mostrarSitioInput;
         this.mostrarUnidadAcademica = false;
+    }
+
+    async modalBuscarMapa() {
+        const modal = await this.modalController.create({
+            component: BuscarMapaPage
+        });
+        await modal.present();
+        const { data } = await modal.onDidDismiss();
+
+        if (data.result) {
+            if (this.capa) {
+                this.mapid.removeLayer(this.capa);
+            }
+
+            this.updateMapa(data.result);
+        }
+    }
+
+    limpiarMapa() {
+        if (this.capa) {
+            this.mapid.removeLayer(this.capa);
+        }
     }
 
 }

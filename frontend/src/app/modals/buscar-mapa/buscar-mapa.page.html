@@ -1,0 +1,36 @@
+<ion-header translucent>
+    <ion-toolbar>
+        <ion-title>Buscar</ion-title>
+        <ion-chip color="danger" slot="end" (click)="cancel()">
+            <ion-icon name="close"></ion-icon>
+        </ion-chip>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="main">
+    <ion-grid style="height: 100%">
+        <ion-row class="ion-align-items-center ion-justify-content-center" style="height: 100%">
+            <ion-card id="login-card">
+                <ion-item>
+                    <ion-select class="maxWidth" (ionChange)="getSitiosUnidadAcademica($event.detail.value);"
+                                placeholder="Unidad Academica">
+                        <ion-select-option [value]="null" [selected]="true">-- Seleccione Unidad Academica --
+                        </ion-select-option>
+                        <ion-select-option *ngFor="let unidadAcademica of unidadesAcademicas" [value]="unidadAcademica">
+                            {{unidadAcademica.nombre}}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Sitio:</ion-label>
+                    <ion-input [(ngModel)]="nombreSitio" (ngModelChange)="getSitio()"></ion-input>
+                </ion-item>
+                <ion-button color="success" size="default" expand="full" [disabled]="!sitios" (click)="confirm()"
+                            style="--ion-color-success-contrast: black !important;">
+                    <ion-icon slot="start" name="locate"></ion-icon>
+                    Ver resultados ({{sitios.length}})
+                    <ion-icon slot="end" name="locate"></ion-icon>
+                </ion-button>
+            </ion-card>
+        </ion-row>
+    </ion-grid>
+</ion-content>

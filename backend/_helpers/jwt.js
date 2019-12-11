@@ -13,6 +13,7 @@ function jwt() {
             '/api/users/register',
             '/api/sitios/unidad/academica',
             '/api/sitios',
+            '/api/data/unidadesAcademicas',
             '/api/data/carreras',
             '/api/data/materias',
             '/api/data/modulos',
