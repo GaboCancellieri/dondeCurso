@@ -1,7 +1,7 @@
 const config = require('../config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const db = require('_helpers/db');
+const db = require('../_helpers/db');
 const User = db.User;
 var nodemailer = require('nodemailer');
 
@@ -48,6 +48,26 @@ async function create(userParam) {
     userParam.username = userParam.nombre.toLowerCase() + '.' + userParam.apellido.toLowerCase();
     userParam.email = userParam.email.toLowerCase();
     var re = new RegExp(userParam.username, 'g')
+
+    const letterValidation = /^[a-zA-Z \u00C0-\u00FF]*$/;
+    if (!letterValidation.test(String(userParam.nombre).toLowerCase())) {
+        return { message: 'El nombre "' + userParam.nombre + '" es inválido.' };
+    }
+    if (!letterValidation.test(String(userParam.apellido).toLowerCase())) {
+        return { message: 'El apellido "' + userParam.apellido + '" es inválido.' };
+
+    }
+
+    const emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!emailValidation.test(String(userParam.email).toLowerCase())) {
+        return { message: 'El email "' + userParam.email + '" es inválido.' };
+    }
+
+    const passwordValidation = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordValidation.test(String(userParam.password).toLowerCase())) {
+        return { message: 'La contraseña es inválida.' };
+
+    }
 
     // validate email
     const userEmail = await User.findOne({

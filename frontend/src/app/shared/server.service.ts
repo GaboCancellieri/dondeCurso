@@ -91,7 +91,7 @@ export class Server {
 
         this.toastController.create({
             color: 'danger',
-            duration: 1500,
+            duration: 8000,
             position: 'bottom',
             message,
         }).then(toast => {
